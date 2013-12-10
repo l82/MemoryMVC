@@ -41,26 +41,30 @@ public class Viewer {
     public void generateMemoryGUI() {
         
         JFrame myFrame;
-        JPanel myPanel;
+        JPanel myPanelMemory;
+        JPanel myPanelRest;
         
         addImages();
         myFrame = generateFrame();
-        myPanel = generatePanel(numRowsCols);
+        myPanelMemory = generatePanel(numRowsCols);
+        myPanelRest = generatePanel(2);
         button = new MemoryButton[numRowsCols * numRowsCols];
         
         for (int i = 0; i < (numRowsCols * numRowsCols); i++) {
             button[i] = new MemoryButton(i);
             button[i].addListener();
-            myPanel.add(button[i]);
+            myPanelMemory.add(button[i]);
         }   
-        myFrame.getContentPane().add(myPanel);
+        myFrame.getContentPane().setLayout(new FlowLayout());
+        myFrame.getContentPane().add(myPanelMemory);
+        myFrame.getContentPane().add(myPanelRest);
         myFrame.setVisible(true);
     }   
       
     private JFrame generateFrame() {
         JFrame myFrame = new JFrame("Memory");
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        myFrame.setSize(600, 600);
+        myFrame.setSize(400, 500);
         return myFrame;
     }  
     

@@ -6,6 +6,7 @@
 
 package memorymvc.view;
 
+import java.awt.Dimension;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,6 +25,7 @@ public class MemoryButton extends JButton {
     public MemoryButton(int i) {
         row = i;
         closed = true;
+        this.setPreferredSize(new Dimension(100, 100));
     }
     
     public void addListener() {
@@ -40,7 +42,6 @@ public class MemoryButton extends JButton {
                 setIcon(null);
                 closed = true;
             }
-            System.out.println("i: " + row);
         }
         });
     }    
