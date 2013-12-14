@@ -6,19 +6,25 @@
 
 package memory.controler;
 
-import java.util.*;
-import memory.model.MBlockButton;
-import memory.view.View;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
- *
+ * The main controler class for memory game.
  * @author lotta
  */
 public class Controler {
     
-    private memory.view.View  vView;
-    private memory.model.Model  mModel;
+    private final memory.view.View  vView;
+    private final memory.model.Model  mModel;
     private final CBlockButtonList cButtonList;
     
+    /**
+     * Constructor for Controler object that initiates handle to main view and
+     * main model object.
+     * @param inModel main model object
+     * @param inViewer main view object
+     */
     public Controler(memory.model.Model inModel,
             memory.view.View inViewer) {
         vView = inViewer;
@@ -26,6 +32,11 @@ public class Controler {
         cButtonList = new CBlockButtonList();
     }
     
+    /**
+     * Get file name for the icon on a certain block
+     * @param blockNo number in CBlockButtonList
+     * @return name of file
+     */
     public String getImage(int blockNo) {
         return mModel.getImage(blockNo);
     }
@@ -34,6 +45,27 @@ public class Controler {
          cButtonList.initiateCButtons(mModel, vView, noOfImages * 2);
     }
     
+    private void generateStartButton(final memory.view.View vView,
+            final memory.model.Model mModel)  {        
+        
+          ActionListener actionListener;
+          actionListener = new ActionListener() {
+                
+          @Override
+          public void actionPerformed(ActionEvent e)
+          {
+              mModel.initialize();
+              vView.initialize();
+               
+          }
+        };                
+        vView.addStartListener(actionListener);   
+    }
+    
+    /**
+     * The main method for the memory game
+     * @param args 
+     */
     public static void main(String[] args) {
         int noOfImages = 8;
         
@@ -42,6 +74,7 @@ public class Controler {
         memory.controler.Controler cControler = new Controler(mModel, vView);
         vView.generateMemoryGUI();
         cControler.generateCButtons(noOfImages);
+        cControler.generateStartButton(vView, mModel);
         mModel.randomizeBlocks();
     }
 }

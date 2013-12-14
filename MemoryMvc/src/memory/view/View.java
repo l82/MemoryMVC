@@ -12,27 +12,47 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import java.lang.Math.*;
 
 /**
- *
+ * The main class for the view package
  * @author lotta
  */
 public class View {
     
     ArrayList<String> pictures;
-   
-    private final VBlockButtonList buttonList; 
-    private final int numRowsCols = 4;
+    JLabel textString;
+    JButton startButton;
     
+    private final VBlockButtonList buttonList; 
+    private final int numRowsCols;
+    private final int numItems;
+    
+    /**
+     * Constructor that initiates some variables
+     * @param noOfItems 
+     */
     public View (int noOfItems) {
-        buttonList = new VBlockButtonList(numRowsCols * numRowsCols);
+        double square, bSquare;
+        buttonList = new VBlockButtonList(noOfItems);
+        numItems = noOfItems;
+        bSquare = (double)numItems;
+        square = Math.sqrt(bSquare);
+        numRowsCols = (int)square;
     }
     
+    /**
+     * Generates GUI for memory game
+     */
     public void generateMemoryGUI() {
         
         JFrame myFrame;
         JPanel myPanelMemory;
         JPanel myPanelRest;
+        textString = new JLabel("Welcome");
+        startButton = new JButton("Restart");
         
         myFrame = generateFrame();
         myPanelMemory = generatePanel(numRowsCols);
@@ -42,6 +62,8 @@ public class View {
             myPanelMemory.add(buttonList.getButton(i));
         }   
        
+        myPanelRest.add(textString);
+        myPanelRest.add(startButton);
         myFrame.getContentPane().setLayout(new FlowLayout());
         myFrame.getContentPane().add(myPanelMemory);
         myFrame.getContentPane().add(myPanelRest);
@@ -62,27 +84,79 @@ public class View {
         return myPanel;
     }
     
+    /**
+     * Adds a listener for the blocks in the memory game
+     * @param blockNo the number in the buttonList array
+     * @param listener the listener to add
+     */
     public void addListener(int blockNo, ActionListener listener) {
         buttonList.addListener(blockNo, listener);
     }
     
+    /**
+     * Adds a listener for the start button in the memory game
+     * @param listener the listener to add
+     */
+    public void addStartListener (ActionListener listener) {
+        startButton.addActionListener(listener);
+    }
+    
+    /**
+     * Opens a button
+     * @param blockNo the number in the buttonList array
+     * @param file the file name of the image
+     */
     public void openButton(int blockNo, String file) {
         buttonList.openButton(blockNo, file);
     }
     
+     /**
+     * Closes a button
+     * @param blockNo the number in the buttonList array
+     * @param file the file name of the image
+     */
     public void closeButton(int blockNo, String file) {
         buttonList.closeButton(blockNo, file);
     }
     
-    public void setRedBorder(int blockNo) {
-        buttonList.setRedBorderColor(blockNo);
+    /**
+     * Set background color red for a button
+     * @param blockNo the number in the buttonList array
+     */
+    public void setRedBackground(int blockNo) {
+        buttonList.setRedBackgroundColor(blockNo);
     }
     
-    public void setGreenBorder(int blockNo) {
-        buttonList.setGreenBorderColor(blockNo);
+    /**
+     * Set background color green for a button
+     * @param blockNo the number in the buttonList array
+     */
+    public void setGreenBackground(int blockNo) {
+        buttonList.setGreenBackgroundColor(blockNo);
     }
     
-    public void setNoBorder(int blockNo) {
-        buttonList.setNoBorderColor(blockNo);
+    /**
+     * Set background color grey for a button
+     * @param blockNo the number in the buttonList array
+     */
+    public void setNoBackground(int blockNo) {
+        buttonList.setNoBackgroundColor(blockNo);
+    }
+    
+    /**
+     * Sets information about game in a label
+     * @param failed number of failed trials
+     * @param noOfTries number of total trials
+     */
+    public void setTextInfo(int failed, int noOfTries) {
+        textString.setText("No of failed: " + failed + ", No of tries: " + noOfTries);
+    }
+    
+    /**
+     * Initialises GUI for a new game
+     */
+    public void initialize() {
+        textString.setText("");
+        buttonList.initialize();
     }
 }

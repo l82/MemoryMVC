@@ -8,7 +8,7 @@ package memory.controler;
 import java.util.ArrayList;
 
 /**
- *
+ * Handles the list that handles all the control of buttons
  * @author lotta
  */
 public class CBlockButtonList {
@@ -16,11 +16,20 @@ public class CBlockButtonList {
     ArrayList<CBlockButton> buttonList;
     int noOfButtons;
     
+    /**
+     * Constructor that initiates the arrayList and number of buttons in list
+     */
     public CBlockButtonList() {
         buttonList = new ArrayList<>();
         noOfButtons = 0; 
     }
     
+    /**
+     * Initiates all control objects for the buttons and adds into arrayList.
+     * @param mModel
+     * @param vView
+     * @param inNoOfButtons 
+     */
     public void initiateCButtons(memory.model.Model mModel, 
             memory.view.View vView, int inNoOfButtons) {
         noOfButtons = inNoOfButtons;

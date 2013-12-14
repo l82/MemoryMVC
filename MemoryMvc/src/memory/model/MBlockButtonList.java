@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- *
+ * Class to handle the model objects of the memory blocks
  * @author lotta
  */
 public class MBlockButtonList {
@@ -19,11 +19,18 @@ public class MBlockButtonList {
     ArrayList<MBlockButton> buttonList;
     int noOfBlocks;
      
+    /**
+     * Constructor that initiates two arrays
+     */
     public MBlockButtonList() {
         numberSeries = new ArrayList<>();
         buttonList = new ArrayList<>();
     }
     
+    /**
+     * Initiates the model objects of the buttons
+     * @param noBlocks total number of blocks in list
+     */
     public void initiateMBlockButtonList(int noBlocks) {
         
         for (int i = 0; i < noBlocks; i++) {
@@ -36,6 +43,22 @@ public class MBlockButtonList {
         noOfBlocks = noBlocks;
     }
     
+    /**
+     * Set all model objects to initial state
+     */
+    public void initialize() {
+        
+        for (int i = 0; i < noOfBlocks; i++) {
+            buttonList.get(i).setClosed(true);
+            buttonList.get(i).setSolved(false);
+        }
+    }
+    
+    /**
+     * Get filename for an icon
+     * @param blockNo number in button model arrayList
+     * @return name of file
+     */
     public String getImage(int blockNo) {
         String fileName;
         fileName = buttonList.get(blockNo).getImage();
@@ -59,6 +82,11 @@ public class MBlockButtonList {
         }
     }
     
+    /**
+     * Get a randomized array
+     * @param allAreas
+     * @return 
+     */
     public ArrayList<Integer> getRandomizedNumbers(int allAreas) {
         
        fillNumbers(allAreas);
@@ -80,37 +108,60 @@ public class MBlockButtonList {
         }
     }
     
+    /**
+     * Gets closed state of a button model object
+     * @param no number in array of model button objects
+     * @return true if button is closed else false
+     */
     public Boolean getClosedState(int no) {
         Boolean closed;
         closed = buttonList.get(no).getClosedState();
         return closed;
     }
     
+    /**
+     * Gets solved state of a button model object 
+     * @param no number in array of model button objects
+     * @return true if button is solved else false
+     */
     public Boolean getSolvedState(int no) {
         Boolean solved;
         solved = buttonList.get(no).getSolvedState();
         return solved;
     }
     
+    /**
+     * Sets a button model object to closed state
+     * @param no number in array of model button objects
+     * @param state State to set, true if closed else false
+     */
     public void setClosedState(int no, Boolean state) {
-        buttonList.get(no).setClosedState(state);
+        buttonList.get(no).setClosed(state);
     }
     
+     /**
+     * Sets a button model object to solved state
+     * @param no number in array of model button objects
+     * @param state State to set, true if solved else false
+     */
     public void setSolvedState(int no, Boolean state) {
-        buttonList.get(no).setSolvedState(state);
+        buttonList.get(no).setSolved(state);
     }
     
+    /**
+     * Check if it is possible to open a button or not depending on status of 
+     * the other buttons 
+     * @param no number in array of model button objects
+     * @return true if ok to open else false
+     */
     public Boolean checkValidToOpen(int no) {
         Boolean result;
         result = true;
         int intResult;
         intResult = 0;
         for (int i = 0; i < buttonList.size(); i++) {
-            if (i == no) {
-                continue;
-            }
-            if (buttonList.get(i).getClosedState() == false &&
-                    buttonList.get(i).getSolvedState() == false) {
+            if ((buttonList.get(i).getClosedState() == false) &&
+                (buttonList.get(i).getSolvedState() == false)) {
                 intResult++;
             }
         }
@@ -120,7 +171,13 @@ public class MBlockButtonList {
         return result;
     }
     
-    public int getOtherOpened(int blockNo) {
+    /**
+     * Checks if another button already is opened or not
+     * @param blockNo number in model object array
+     * @return -1 if no opened button was found, else number of button that 
+     * was found
+     */
+    public int findOtherOpened(int blockNo) {
         int result = -1;
         Boolean closed;
         Boolean solved;
@@ -128,23 +185,25 @@ public class MBlockButtonList {
             closed = buttonList.get(i).getClosedState();
             solved = buttonList.get(i).getSolvedState();
             if (i == blockNo) {
-                System.out.println("L8 in blockNo: " + i);
                 continue;
             }
             if (closed) {
-                System.out.println("L8 in closed: " + i);
                 continue;
             }
             if (solved) {
-                System.out.println("L8 in solved: " + i);
                 continue;
             }
-            System.out.println("L8 in end: " + i);
             result = i;
         }
         return result;
     }
     
+    /**
+     * Validates if two images are the same or not
+     * @param blockNo the number in model object arrayList
+     * @param otherOpened the number in array of the other opened image
+     * @return true if the images are the same else false
+    */
     public Boolean validateResult(int blockNo, int otherOpened) {
         String image1, image2;
         Boolean result;
