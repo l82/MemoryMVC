@@ -28,20 +28,47 @@ public class CBlockButton implements ActionListener {
                @Override
                 public void actionPerformed(ActionEvent e)
                 {
-                Boolean shouldOpen;
+                Boolean shouldOpen, closed, correct;
                 String file;
+                int otherOpened;
+                
+                correct = false;
+                otherOpened = -1;
                 file = mModel.getImage(blockNo);
-                System.out.println("L8 " + file);
-                //shouldOpen = checkValidToOpen(blockNo);
-                //if (shouldOpen && (closed == true)) {
+                closed = mModel.getClosed(blockNo);
+                shouldOpen = mModel.checkValidToOpen(blockNo);
+                otherOpened = mModel.getOtherOpened(blockNo);
+                System.out.println("L8 shouldOpen " + shouldOpen + " closed " + closed);
+                if (shouldOpen && (closed == true)) {
                     vView.openButton(blockNo, file);
-                //    closed = false;
-                //}
-                //else {
-                //    memoryButton.closeButton();
-                //    closed = true;
+                    mModel.setClosed(blockNo, false);
+                }
+                else {
+                    vView.closeButton(blockNo, "");
+                    mModel.setClosed(blockNo, true);
+                    vView.setNoBorder(blockNo);
                     System.out.println("You are not allowed to open any more block.");
-                //}
+                    otherOpened = -1;
+                }
+                
+                correct = mModel.validateResult(blockNo, otherOpened);
+                
+                System.out.println("L8 blockNo: " + blockNo + " otherOpened: " + 
+                        otherOpened + " correct: " + correct);
+                
+                if (correct == true) {
+                    vView.setGreenBorder(blockNo);
+                    vView.setGreenBorder(otherOpened);
+                    mModel.setSolved(blockNo, true);
+                    mModel.setSolved(otherOpened, true);
+                }
+                else if (correct == false && otherOpened >= 0) {
+                    vView.setRedBorder(blockNo);
+                    vView.setRedBorder(otherOpened);
+                }
+                else {
+                    vView.setNoBorder(blockNo);
+                }
             }
         };                
         vView.addListener(blockNo, actionListener);   
@@ -50,16 +77,6 @@ public class CBlockButton implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e)
     {
-    //    Boolean shouldOpen;
-    //    shouldOpen = checkValidToOpen(blockNo);
-    //    if (shouldOpen && (closed == true)) {
-    //        memoryButton.openButton();
-    //        closed = false;
-    //    }
-    //    else {
-    //        memoryButton.closeButton();
-    //        closed = true;
-    //        System.out.println("You are not allowed to open any more block.");
-    //    }
+    
     }      
 }

@@ -38,4 +38,20 @@ public class MBlockButton {
     public String getImage() {
         return image;
     }
+    
+    public Boolean getClosedState() {
+        return closed;
+    }
+    
+    public Boolean getSolvedState() {
+        return solved;
+    }
+    
+    public void setClosedState(Boolean state) {
+        closed = state;
+    }
+    
+    public void setSolvedState(Boolean state) {
+        solved = state;
+    }
 }

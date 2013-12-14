@@ -15,25 +15,23 @@ import memory.view.View;
  */
 public class Controler {
     
-    memory.view.View  vView;
-    memory.model.Model  mModel;
+    private memory.view.View  vView;
+    private memory.model.Model  mModel;
+    private final CBlockButtonList cButtonList;
     
     public Controler(memory.model.Model inModel,
             memory.view.View inViewer) {
         vView = inViewer;
         mModel = inModel;
-        
-    }
-    
-    public void initiateCButtons(memory.model.Model mModel, int noOfButtons) {
-        for (int i = 0; i < noOfButtons; i++) {
-            CBlockButton block = new CBlockButton(i);
-            block.cBlockButtonControl(mModel, vView, i);
-        }
+        cButtonList = new CBlockButtonList();
     }
     
     public String getImage(int blockNo) {
         return mModel.getImage(blockNo);
+    }
+    
+    private void generateCButtons(int noOfImages) {
+         cButtonList.initiateCButtons(mModel, vView, noOfImages * 2);
     }
     
     public static void main(String[] args) {
@@ -43,7 +41,7 @@ public class Controler {
         memory.view.View vView = new memory.view.View(noOfImages * 2);
         memory.controler.Controler cControler = new Controler(mModel, vView);
         vView.generateMemoryGUI();
-        cControler.initiateCButtons(mModel, noOfImages * 2);
+        cControler.generateCButtons(noOfImages);
         mModel.randomizeBlocks();
     }
 }

@@ -17,6 +17,7 @@ public class MBlockButtonList {
     
     ArrayList<Integer> numberSeries;
     ArrayList<MBlockButton> buttonList;
+    int noOfBlocks;
      
     public MBlockButtonList() {
         numberSeries = new ArrayList<>();
@@ -32,6 +33,7 @@ public class MBlockButtonList {
             buttonList.add(block);
         }
         addImages(noBlocks);
+        noOfBlocks = noBlocks;
     }
     
     public String getImage(int blockNo) {
@@ -78,76 +80,82 @@ public class MBlockButtonList {
         }
     }
     
-    /*
-    public Boolean checkValidToOpen(int blockNo) {
-        
-        Boolean possibleToOpen, moreThanOneOpened; 
-        //Change only if needed
-        possibleToOpen = true;
-        int numberOfBlocks;
-        Boolean ownClosed;
-        ArrayList<Boolean> blocking;
-        ownClosed = getClosedState();
-        moreThanOneOpened = false;
-        
-        //First get total number of blocka
-        numberOfBlocks = memoryViewer.getNumberOfBlocks();
-        blocking = fillBlockingList(numberOfBlocks);
-        
-        //Set possibleToOpen to true first and check if anything blocks that
-        if (ownClosed == true) {
-            moreThanOneOpened = evaluateMoreThanOneOpened(blocking);
-        }
-        
-        if ((ownClosed == false) || (moreThanOneOpened)) {
-            possibleToOpen = false;
-        }
-        
-        return possibleToOpen;
+    public Boolean getClosedState(int no) {
+        Boolean closed;
+        closed = buttonList.get(no).getClosedState();
+        return closed;
     }
     
-    private Boolean evaluateMoreThanOneOpened(ArrayList<Boolean> blocking) {
-        Boolean more;
-        int numberOfBlocksOpened;
-        numberOfBlocksOpened = 0;
-        System.out.println("L8 should evaluate");
-        
-        for (int i = 0; i < blocking.size(); i++) {
-            if ((blocking.get(i)) == true) {
-                System.out.println("L8 blocking is true");
-                numberOfBlocksOpened++;
+    public Boolean getSolvedState(int no) {
+        Boolean solved;
+        solved = buttonList.get(no).getSolvedState();
+        return solved;
+    }
+    
+    public void setClosedState(int no, Boolean state) {
+        buttonList.get(no).setClosedState(state);
+    }
+    
+    public void setSolvedState(int no, Boolean state) {
+        buttonList.get(no).setSolvedState(state);
+    }
+    
+    public Boolean checkValidToOpen(int no) {
+        Boolean result;
+        result = true;
+        int intResult;
+        intResult = 0;
+        for (int i = 0; i < buttonList.size(); i++) {
+            if (i == no) {
+                continue;
+            }
+            if (buttonList.get(i).getClosedState() == false &&
+                    buttonList.get(i).getSolvedState() == false) {
+                intResult++;
             }
         }
-        //Initiate to false
-        more = false;
-        if (numberOfBlocksOpened > 1) {
-            more = true;
+        if (intResult > 1) {
+            result = false;
         }
-        return more;
+        return result;
     }
     
-    private ArrayList<Boolean> fillBlockingList(int numberOfBlocks) {
-        Boolean blockMayBlock; 
-        ArrayList<Boolean> blocking = new ArrayList<>();
-        for (int i = 0; i < numberOfBlocks; i++) {
-            blockMayBlock = evaluateBlockState(i);
-            blocking.add(blockMayBlock);
+    public int getOtherOpened(int blockNo) {
+        int result = -1;
+        Boolean closed;
+        Boolean solved;
+        for (int i = 0; i < buttonList.size(); i++) {
+            closed = buttonList.get(i).getClosedState();
+            solved = buttonList.get(i).getSolvedState();
+            if (i == blockNo) {
+                System.out.println("L8 in blockNo: " + i);
+                continue;
+            }
+            if (closed) {
+                System.out.println("L8 in closed: " + i);
+                continue;
+            }
+            if (solved) {
+                System.out.println("L8 in solved: " + i);
+                continue;
+            }
+            System.out.println("L8 in end: " + i);
+            result = i;
         }
-        return blocking;
+        return result;
     }
     
-    private Boolean evaluateBlockState(int blockNo) {
-        
-        Boolean possibleBlocking;
-        
-        //Initialize to blocking and change if needed
-        possibleBlocking = true;
-        if (closed || solved) {
-            possibleBlocking = false;
+    public Boolean validateResult(int blockNo, int otherOpened) {
+        String image1, image2;
+        Boolean result;
+        image1 = buttonList.get(blockNo).getImage();
+        image2 = buttonList.get(otherOpened).getImage();
+        if (image1.equals(image2)) {
+            result = true;
         }
-        return possibleBlocking;
+        else {
+            result = false;
+        }
+        return result;
     }
-    */
-    
-    
 }

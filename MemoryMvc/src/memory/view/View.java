@@ -20,15 +20,12 @@ import javax.swing.JPanel;
 public class View {
     
     ArrayList<String> pictures;
-    ArrayList<VBlockButton> buttonList;
-    private memory.controler.Controler memoryControler;
-    private memory.model.MBlockButtonList memoryModel;
-    private final int numBlocks; 
+   
+    private final VBlockButtonList buttonList; 
     private final int numRowsCols = 4;
     
     public View (int noOfItems) {
-        numBlocks = noOfItems;
-        buttonList = new ArrayList<>();
+        buttonList = new VBlockButtonList(numRowsCols * numRowsCols);
     }
     
     public void generateMemoryGUI() {
@@ -40,12 +37,11 @@ public class View {
         myFrame = generateFrame();
         myPanelMemory = generatePanel(numRowsCols);
         myPanelRest = generatePanel(2);
-        
+        buttonList.initiateButtonList(numRowsCols);
         for (int i = 0; i < (numRowsCols * numRowsCols); i++) {
-            VBlockButton button = new VBlockButton(this, i);
-            myPanelMemory.add(button);
-            buttonList.add(button);
+            myPanelMemory.add(buttonList.getButton(i));
         }   
+       
         myFrame.getContentPane().setLayout(new FlowLayout());
         myFrame.getContentPane().add(myPanelMemory);
         myFrame.getContentPane().add(myPanelRest);
@@ -67,14 +63,26 @@ public class View {
     }
     
     public void addListener(int blockNo, ActionListener listener) {
-        buttonList.get(blockNo).addActionListener(listener);
+        buttonList.addListener(blockNo, listener);
     }
     
     public void openButton(int blockNo, String file) {
-        buttonList.get(blockNo).openButton(file);
+        buttonList.openButton(blockNo, file);
     }
     
     public void closeButton(int blockNo, String file) {
-        buttonList.get(blockNo).closeButton();
+        buttonList.closeButton(blockNo, file);
+    }
+    
+    public void setRedBorder(int blockNo) {
+        buttonList.setRedBorderColor(blockNo);
+    }
+    
+    public void setGreenBorder(int blockNo) {
+        buttonList.setGreenBorderColor(blockNo);
+    }
+    
+    public void setNoBorder(int blockNo) {
+        buttonList.setNoBorderColor(blockNo);
     }
 }

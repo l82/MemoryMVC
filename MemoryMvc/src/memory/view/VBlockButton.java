@@ -6,6 +6,7 @@
 
 package memory.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.*;
 import javax.swing.ImageIcon;
@@ -15,13 +16,11 @@ import javax.swing.ImageIcon;
  * @author lotta
  */
 public class VBlockButton extends JButton {
-    private final int blockNo;
     ImageIcon image;
    
     memory.controler.CBlockButton buttonControler; 
     
-    public VBlockButton(View viewer, int i) {
-        blockNo = i;
+    public VBlockButton(int i) {
         this.setPreferredSize(new Dimension(100, 100));
     }
     
@@ -34,8 +33,26 @@ public class VBlockButton extends JButton {
         setIcon(image);
     }
     
-    public void closeButton() {
-        setIcon(null);
+    public void closeButton(String file) {
+        if (file.contentEquals("")) {
+            setIcon(null);
+        }
+        else {
+            setImage(file);
+            setIcon(image);
+        }
+    }
+    
+    public void setRedBorderColor() {
+        this.setBackground(Color.red);
+    }
+    
+    public void setGreenBorderColor() {
+        this.setBackground(Color.green);
+    }
+    
+    public void setNoBorderColor() {
+        this.setBackground(Color.LIGHT_GRAY);
     }
 
 }
